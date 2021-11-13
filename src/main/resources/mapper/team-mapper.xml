@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.cocoa.dao.TeamDAO">
+    <select id="getTeamList"  resultType="kh.cocoa.dto.TeamDTO">
+        SELECT * FROM Team where dept_code = #{code} order by name
+    </select>
+    <select id="getTeamName" resultType="kh.cocoa.dto.TeamDTO">
+        select * from team where code=#{code} order by name
+    </select>
+    <select id="getSearchTeamList" resultType="kh.cocoa.dto.TeamDTO">
+        select count(e.team_code) count,t.name,t.code from team t
+        full outer join employee e on t.code = e.team_code
+        where t.name like '%${name}%' group by t.name,t.code order by name
+    </select>
+
+    <select id="getSearchTeamCode" resultType="kh.cocoa.dto.TeamDTO">
+        SELECT * FROM TEAM WHERE NAME LIKE '%${name}%'
+    </select>
+    
+    <!-- 소형 관리자 시작 -->
+    <select id="getAllTeamList"  resultType="kh.cocoa.dto.TeamDTO">
+        SELECT * FROM TEAM ORDER BY CODE
+    </select>
+    
+    <select id="getTeamListByDeptCode"  resultType="kh.cocoa.dto.TeamDTO">
+        SELECT * FROM TEAM WHERE DEPT_CODE=#{dept_code} ORDER BY CODE
+    </select>
+    
+    <insert id="addTeam" parameterType="List">
+    	INSERT ALL
+    	<foreach collection="list" item="i">
+    		INTO TEAM
+    		(CODE, NAME, DEPT_CODE)
+    		VALUES
+    		(FUNC_TEAM_SEQ
+    		,#{i.name}
+    		,#{i.dept_code})
+    	</foreach>
+    	SELECT*FROM DUAL
+    </insert>
+    
+    <update id="updateTeam">
+    	<foreach collection="list" item="i" index="index" separator=";" open="DECLARE BEGIN" close="; END;">
+    		UPDATE TEAM
+    		SET
+    			NAME=#{i.name}
+    			,DEPT_CODE=#{i.dept_code}
+    		WHERE CODE = #{i.code}
+    	</foreach>
+    </update>
+    
+    <delete id="deleteTeam">
+    	<foreach collection="list" item="i" index="index" separator=";" open="DECLARE BEGIN" close="; END;">
+    		DELETE FROM TEAM
+    		WHERE CODE = #{i.code}
+    	</foreach>
+    </delete>
+    
+    <select id="countNoTeam" resultType="int">
+    	SELECT COUNT(*)FROM EMPLOYEE WHERE TEAM_CODE IN (NULL, 0) AND DEPT_CODE = #{dept_code}
+    </select>
+    
+    <!-- 소형 관리자 끝 -->
+</mapper>

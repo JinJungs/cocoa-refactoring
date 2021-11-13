@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.cocoa.dao.TemplatesDAO">
+    <select id="getTemplateList" resultType="kh.cocoa.dto.TemplatesDTO">
+        SELECT * FROM TEMPLATES WHERE STATUS='Y' ORDER BY CODE
+    </select>
+    <select id="getUsingTemplates" resultType="kh.cocoa.dto.TemplatesDTO">
+        SELECT * FROM TEMPLATES WHERE STATUS='Y' AND CODE > 3 ORDER BY CODE
+    </select>
+    <select id="getSubTemplateList" resultType="kh.cocoa.dto.TemplatesDTO">
+        SELECT * FROM TEMPLATES WHERE STATUS='N'
+    </select>
+    <select id="getTemplateList2" resultType="kh.cocoa.dto.TemplatesDTO">
+        SELECT * FROM TEMPLATES WHERE STATUS='Y' AND code not in(1,2,3) order by code
+    </select>
+    <select id="getTemplateList3" resultType="kh.cocoa.dto.TemplatesDTO">
+        SELECT * FROM TEMPLATES WHERE CODE IN(4,5,6)
+    </select>
+
+    <select id="getClickTemplateList" resultType="kh.cocoa.dto.TemplatesDTO">
+        select t.*, e.name||' | '||d.name as writer_name from templates t
+        inner join employee e on e.code=t.writer_code
+        inner join departments d on e.dept_code =d.code WHERE t.FORM_CODE=#{code} ORDER BY t.CODE
+    </select>
+
+    <insert id="addTemplates">
+    <choose>
+        <when test="contents==null">
+            insert into templates values(templates_seq.nextval,#{name},#{status},#{form_code},#{explain},'',#{temp_code},#{writer_code})
+        </when>
+        <otherwise>
+            insert into templates values(templates_seq.nextval,#{name},#{status},#{form_code},#{explain},#{contents},#{temp_code},#{writer_code})
+        </otherwise>
+    </choose>
+    </insert>
+
+    <update id="modTemplates">
+        <choose>
+            <when test="contents==null">
+                update templates set name=#{name}, status=#{status}, explain=#{explain},temp_code=#{temp_code},writer_code=#{writer_code} where code=#{code}
+            </when>
+            <otherwise>
+                update templates set name=#{name}, status=#{status}, explain=#{explain}, contents=#{contents},temp_code=#{temp_code},writer_code=#{writer_code} where code=#{code}
+            </otherwise>
+        </choose>
+
+    </update>
+
+    <delete id="delTemplate">
+        delete from templates where code=#{code}
+    </delete>
+
+    <select id="searchList" resultType="kh.cocoa.dto.TemplatesDTO">
+        select * from templates where form_code=#{form_code} and name like '%${getSearch}%'
+    </select>
+
+    <select id="getTemplateListbyFormCode" resultType="kh.cocoa.dto.TemplatesDTO">
+        select * from templates where form_code=#{form_code} and status='Y' order by code
+    </select>
+
+    <select id="getTemplateInfo" resultType="kh.cocoa.dto.TemplatesDTO">
+        select * from templates where code=#{code}
+    </select>
+
+    <select id="getTempCode" resultType="Integer">
+        select temp_code from templates where code=#{code}
+    </select>
+
+    <select id="getTemplateCount" resultType="Integer">
+        SELECT COUNT(*) FROM TEMPLATES WHERE FORM_CODE =#{form_code} AND STATUS='Y'
+    </select>
+</mapper>

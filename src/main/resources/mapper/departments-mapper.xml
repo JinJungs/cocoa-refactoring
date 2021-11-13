@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kh.cocoa.dao.DepartmentsDAO">
+   <select id="getDeptName" resultType="String">
+        SELECT NAME FROM DEPARTMENTS WHERE CODE=1
+   </select>
+
+    <select id="getDeptList" resultType="kh.cocoa.dto.DepartmentsDTO">
+        SELECT * FROM DEPARTMENTS where code not in (0) order by name
+    </select>
+
+    <select id="getDeptNameByCode" resultType="kh.cocoa.dto.DepartmentsDTO">
+        SELECT * FROM DEPARTMENTS WHERE CODE=#{code}
+    </select>
+
+    <select id="getDept" resultType="kh.cocoa.dto.DepartmentsDTO">
+        SELECT * FROM DEPARTMENTS WHERE CODE=0
+    </select>
+
+    <select id="getSearchTopDept" resultType="kh.cocoa.dto.DepartmentsDTO">
+        select * from departments where name like '%${name}%' and code=0
+    </select>
+
+    <select id="getSearchDeptCode" resultType="kh.cocoa.dto.DepartmentsDTO">
+        SELECT * FROM DEPARTMENTS WHERE NAME LIKE '%${name}%'
+    </select>
+    
+    <!-- ====소형=== 관리자 - 사용자관리 -->
+    <select id="getDeptListWithout0" resultType="kh.cocoa.dto.DepartmentsDTO">
+        SELECT * FROM DEPARTMENTS WHERE CODE!=0 ORDER BY CODE
+    </select>
+    
+    <select id="getDeptListOrderByCode" resultType="kh.cocoa.dto.DepartmentsDTO">
+        SELECT * FROM DEPARTMENTS ORDER BY CODE
+    </select>
+    
+    <select id="getDeptListForFilter" resultType="kh.cocoa.dto.DepartmentsDTO">
+    	SELECT * 
+			FROM (SELECT code, name FROM DEPARTMENTS WHERE CODE != 0
+					UNION ALL
+				  SELECT 0 code, '전체' name FROM DUAL)
+			ORDER BY CODE
+    </select>
+    
+    <insert id="addDept" parameterType="List">
+    	INSERT ALL
+    	<foreach collection="list" item="i">
+    		INTO DEPARTMENTS
+    		(CODE, NAME)
+    		VALUES
+    		(FUNC_DEPARTMENTS_SEQ
+    		,#{i.name})
+    	</foreach>
+    	SELECT*FROM DUAL
+    </insert>
+    
+    <update id="updateDept">
+    	<foreach collection="list" item="i" index="index" separator=";" open="DECLARE BEGIN" close="; END;">
+    		UPDATE DEPARTMENTS
+    		SET
+    			NAME=#{i.name}
+    		WHERE CODE = #{i.code}
+    	</foreach>
+    </update>
+    
+    <delete id="deleteDept">
+    	<foreach collection="list" item="i" index="index" separator=";" open="DECLARE BEGIN" close="; END;">
+    		DELETE FROM DEPARTMENTS
+    		WHERE CODE = #{i.code}
+    	</foreach>
+    </delete>
+    
+    <!-- ====소형=== 관리자 - 사용자관리 끝 -->
+</mapper>
