@@ -10,7 +10,7 @@
 				INSERT INTO DOCUMENT 
 				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
 				TEMP_CODE,REPORT_START,STATUS) VALUES
-				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
+				(#{logDoc_seq},#{ddto.title},#{ddto.contents},NOW(),
 				#{ddto.writer_code},#{dept_code},
 				1,#{ddto.report_start},'RAISE')
 			</when>
@@ -18,7 +18,7 @@
 				INSERT INTO DOCUMENT 
 				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
 				TEMP_CODE,REPORT_START,STATUS)VALUES
-				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
+				(#{logDoc_seq},#{ddto.title},#{ddto.contents},NOW(),
 				#{ddto.writer_code},#{dept_code},
 				2,#{ddto.report_start_week,jdbcType=VARCHAR},'RAISE')
 			</when>
@@ -26,7 +26,7 @@
 				INSERT INTO DOCUMENT 
 				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
 				TEMP_CODE,REPORT_START,STATUS)VALUES
-				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
+				(#{logDoc_seq},#{ddto.title},#{ddto.contents},NOW(),
 				#{ddto.writer_code},#{dept_code},
 				3,#{ddto.report_start_month,jdbcType=VARCHAR},'RAISE')
 			</when>
@@ -43,7 +43,7 @@
 				INSERT INTO DOCUMENT 
 				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
 				TEMP_CODE,REPORT_START,STATUS) VALUES
-				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
+				(#{logDoc_seq},#{ddto.title},#{ddto.contents},NOW(),
 				#{ddto.writer_code},#{dept_code},
 				1,#{ddto.report_start},'TEMP')
 			</when>
@@ -51,7 +51,7 @@
 				INSERT INTO DOCUMENT 
 				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
 				TEMP_CODE,REPORT_START,STATUS)VALUES
-				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
+				(#{logDoc_seq},#{ddto.title},#{ddto.contents},NOW(),
 				#{ddto.writer_code},#{dept_code},
 				2,#{ddto.report_start_week,jdbcType=VARCHAR},'TEMP')
 			</when>
@@ -59,7 +59,7 @@
 				INSERT INTO DOCUMENT 
 				(SEQ,TITLE,CONTENTS,WRITE_DATE,WRITER_CODE,DEPT_CODE,
 				TEMP_CODE,REPORT_START,STATUS)VALUES
-				(#{logDoc_seq},#{ddto.title},#{ddto.contents},sysdate,
+				(#{logDoc_seq},#{ddto.title},#{ddto.contents},NOW(),
 				#{ddto.writer_code},#{dept_code},
 				3,#{ddto.report_start_month,jdbcType=VARCHAR},'TEMP')
 			</when>
@@ -341,32 +341,32 @@
 <!-- 수정 - 임시저장 / 일일-->
 	<update id="logModifyTempUpdateDaily">
 		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start},
-		CONTENTS=#{contents}, WRITE_DATE=SYSDATE, 
+		CONTENTS=#{contents}, WRITE_DATE=NOW(),
 		STATUS='TEMP'
 		WHERE SEQ=#{seq}
 	</update>
 <!-- 수정 - 임시저장 / 주간 & 월별-->
 	<update id="logModifyTempUpdate">
 		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start_week,jdbcType=VARCHAR},
-		CONTENTS=#{contents}, WRITE_DATE=SYSDATE,STATUS='TEMP'WHERE SEQ=#{seq}
+		CONTENTS=#{contents}, WRITE_DATE=NOW(),STATUS='TEMP'WHERE SEQ=#{seq}
 	</update>
 	<update id="logModifyTempUpdateMonth">
 		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start_month,jdbcType=VARCHAR},
-		CONTENTS=#{contents}, WRITE_DATE=SYSDATE,STATUS='TEMP'WHERE SEQ=#{seq}
+		CONTENTS=#{contents}, WRITE_DATE=NOW(),STATUS='TEMP'WHERE SEQ=#{seq}
 	</update>
 <!-- 수정 - 수정완료 / 일일-->
 	<update id="logModifyDaily">
 		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start,jdbcType=VARCHAR},
-		CONTENTS=#{contents}, STATUS='RAISE', WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
+		CONTENTS=#{contents}, STATUS='RAISE', WRITE_DATE=NOW() WHERE SEQ=#{seq}
 	</update>
 <!-- 수정 - 수정완료 / 주간 & 월별 -->
 	<update id="logModify">
 		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start_week,jdbcType=VARCHAR},
-		CONTENTS=#{contents}, STATUS='RAISE', WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
+		CONTENTS=#{contents}, STATUS='RAISE', WRITE_DATE=NOW() WHERE SEQ=#{seq}
 	</update>
 <update id="logModifyMonth">
 		UPDATE DOCUMENT SET TITLE=#{title}, REPORT_START=#{report_start_month,jdbcType=VARCHAR},
-		CONTENTS=#{contents}, STATUS='RAISE', WRITE_DATE=SYSDATE WHERE SEQ=#{seq}
+		CONTENTS=#{contents}, STATUS='RAISE', WRITE_DATE=NOW() WHERE SEQ=#{seq}
 	</update>
 
 </mapper>

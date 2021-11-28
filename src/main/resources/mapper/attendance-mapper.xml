@@ -11,15 +11,15 @@
     </insert>
 
     <select id="checkStart" resultType="java.sql.Timestamp">
-        select start_time from attendance where to_char(start_time, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD') and emp_code = #{emp_code}
+        select start_time from attendance where to_char(start_time, 'YYYYMMDD') = to_char(NOW(), 'YYYYMMDD') and emp_code = #{emp_code}
     </select>
 
     <select id="checkEnd" resultType="java.sql.Timestamp">
-        select end_time from attendance where to_char(start_time, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD') and emp_code = #{emp_code}
+        select end_time from attendance where to_char(start_time, 'YYYYMMDD') = to_char(NOW(), 'YYYYMMDD') and emp_code = #{emp_code}
     </select>
 
     <update id="offWork">
-        update attendance set end_time = systimestamp where to_char(start_time, 'YYYYMMDD') = to_char(sysdate, 'YYYYMMDD') and emp_code = #{emp_code}
+        update attendance set end_time = systimestamp where to_char(start_time, 'YYYYMMDD') = to_char(NOW(), 'YYYYMMDD') and emp_code = #{emp_code}
     </update>
 
     <select id="getAttendanceList" resultType="kh.cocoa.dto.AttendanceDTO">
@@ -27,45 +27,45 @@
     </select>
 
     <select id="getAtdTime" resultType="kh.cocoa.dto.AttendanceDTO">
-        SELECT * FROM ATTENDANCE where start_time between  NEXT_DAY(SYSDATE-8,'老夸老') and NEXT_DAY(SYSDATE,'配夸老') and emp_code=#{emp_code} and start_time is not null
+        SELECT * FROM ATTENDANCE where start_time between  NEXT_DAY(NOW()-8,'老夸老') and NEXT_DAY(NOW(),'配夸老') and emp_code=#{emp_code} and start_time is not null
     </select>
 
     <select id="getMonthAtdTime" resultType="kh.cocoa.dto.AttendanceDTO">
-        SELECT * FROM ATTENDANCE WHERE to_char(start_time,'YYMMDD') between TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE) and emp_code=#{emp_code} and end_time is not null
+        SELECT * FROM ATTENDANCE WHERE to_char(start_time,'YYMMDD') between TRUNC(NOW(), 'MM') and LAST_DAY(NOW()) and emp_code=#{emp_code} and end_time is not null
     </select>
 
     <select id="isAtd" resultType="kh.cocoa.dto.AttendanceDTO">
-        SELECT * from attendance where to_char(start_time,'YYMMDD') = to_char(sysdate,'YYMMDD') and emp_code=#{emp_code}
+        SELECT * from attendance where to_char(start_time,'YYMMDD') = to_char(NOW(),'YYMMDD') and emp_code=#{emp_code}
     </select>
 
     <select id="isInWork" resultType="String">
-        SELECT to_char(start_time,'HH24:MM:SS') from attendance where to_char(start_time,'YYMMDD')=to_char(sysdate,'YYMMDD') and start_time is not null and emp_code=#{emp_code}
+        SELECT to_char(start_time,'HH24:MM:SS') from attendance where to_char(start_time,'YYMMDD')=to_char(NOW(),'YYMMDD') and start_time is not null and emp_code=#{emp_code}
     </select>
 
     <select id="isOutWork" resultType="String">
-        SELECT to_char(end_time,'HH24:MM:SS')  from attendance where to_char(start_time,'YYMMDD')=to_char(sysdate,'YYMMDD') and end_time is not null and emp_code=#{emp_code}
+        SELECT to_char(end_time,'HH24:MM:SS')  from attendance where to_char(start_time,'YYMMDD')=to_char(NOW(),'YYMMDD') and end_time is not null and emp_code=#{emp_code}
     </select>
 
     <insert id="startWork2">
         <choose>
             <when test="status=='in'">
-                update attendance set start_time=systimestamp, status='IN' where emp_code=#{emp_code} and to_char(today,'YYMMDD') = to_char(sysdate,'YYMMDD')
+                update attendance set start_time=systimestamp, status='IN' where emp_code=#{emp_code} and to_char(today,'YYMMDD') = to_char(NOW(),'YYMMDD')
             </when>
             <when test="status=='late'">
-                update attendance set start_time=systimestamp, status='LATE' where emp_code=#{emp_code} and to_char(today,'YYMMDD') = to_char(sysdate,'YYMMDD')
+                update attendance set start_time=systimestamp, status='LATE' where emp_code=#{emp_code} and to_char(today,'YYMMDD') = to_char(NOW(),'YYMMDD')
             </when>
             <otherwise>
-                update attendance set start_time=systimestamp, status='OUT' where emp_code=#{emp_code} and to_char(today,'YYMMDD') = to_char(sysdate,'YYMMDD')
+                update attendance set start_time=systimestamp, status='OUT' where emp_code=#{emp_code} and to_char(today,'YYMMDD') = to_char(NOW(),'YYMMDD')
             </otherwise>
         </choose>
     </insert>
 
     <update id="reRegStartTime">
-       update attendance set start_time=sysdate where emp_code=#{emp_code} and to_char(start_time,'YYMMDD') = to_char(sysdate,'YYMMDD')
+       update attendance set start_time=NOW() where emp_code=#{emp_code} and to_char(start_time,'YYMMDD') = to_char(NOW(),'YYMMDD')
     </update>
 
     <update id="endWork">
-         update attendance set end_time=sysdate, overtime=#{overtime} where emp_code=#{emp_code} and  to_char(start_time,'YYMMDD') = to_char(sysdate,'YYMMDD')
+         update attendance set end_time=NOW(), overtime=#{overtime} where emp_code=#{emp_code} and  to_char(start_time,'YYMMDD') = to_char(NOW(),'YYMMDD')
     </update>
 
     <select id="isReq" resultType="kh.cocoa.dto.AtdChangeReqDTO">
@@ -94,19 +94,19 @@
     </select>
 
     <select id="countStatusLate" resultType="String">
-        select COUNT(*) from attendance where status='LATE' and emp_code=#{emp_code} and start_time BETWEEN TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
+        select COUNT(*) from attendance where status='LATE' and emp_code=#{emp_code} and start_time BETWEEN TRUNC(NOW(), 'MM') and LAST_DAY(NOW())
     </select>
 
     <select id="countStatusWork" resultType="String">
-        select COUNT(*) from attendance where emp_code=#{emp_code} and start_time BETWEEN TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
+        select COUNT(*) from attendance where emp_code=#{emp_code} and start_time BETWEEN TRUNC(NOW(), 'MM') and LAST_DAY(NOW())
     </select>
 
     <select id="countWorkHour" resultType="String">
-        select SUM(EXTRACT(Hour From(end_time-start_time))) hour from attendance where emp_code=#{emp_code} and start_time BETWEEN TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
+        select SUM(EXTRACT(Hour From(end_time-start_time))) hour from attendance where emp_code=#{emp_code} and start_time BETWEEN TRUNC(NOW(), 'MM') and LAST_DAY(NOW())
     </select>
 
     <select id="countWorkMin" resultType="String">
-        select SUM(EXTRACT(MINUTE From(end_time-start_time))) MINUTE from attendance where emp_code=#{emp_code}and start_time BETWEEN TRUNC(SYSDATE, 'MM') and LAST_DAY(SYSDATE)
+        select SUM(EXTRACT(MINUTE From(end_time-start_time))) MINUTE from attendance where emp_code=#{emp_code}and start_time BETWEEN TRUNC(NOW(), 'MM') and LAST_DAY(NOW())
     </select>
 
     <select id="getAtdReqListToMain" resultType="kh.cocoa.dto.AtdChangeReqDTO">
@@ -171,7 +171,7 @@
 
 
     <insert id="toDayUpdateAtd">
-        insert into attendance(seq,emp_code,today,status) values(attendance_seq.nextval,#{emp_code},sysdate,'BW')
+        insert into attendance(seq,emp_code,today,status) values(attendance_seq.nextval,#{emp_code},NOW(),'BW')
     </insert>
 
     <update id="updateMWEmpAtd">

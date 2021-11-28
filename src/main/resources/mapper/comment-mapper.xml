@@ -6,7 +6,7 @@
 <!-- *************************회사 소식***************************** -->
 <!-- 댓글 작성 -->
 	<insert id="noBoardWriteComment">
-		INSERT INTO COMMENT_LIST VALUES (COMMENT_SEQ.NEXTVAL,#{contents},SYSDATE,#{seq},#{writer_code})
+		INSERT INTO COMMENT_LIST VALUES (COMMENT_SEQ.NEXTVAL,#{contents},NOW(),#{seq},#{writer_code})
 	</insert>
 <!-- 댓글 리스트 불러오기 -->
 	<select id="noBoardWriteCommentList" resultType="kh.cocoa.dto.CommentListDTO">
