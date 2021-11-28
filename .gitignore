@@ -21,6 +21,7 @@ out/
 *.ipr
 *.yml
 *.yaml
+*.uml
 
 ### NetBeans ###
 /nbproject/private/
