@@ -268,8 +268,11 @@
          data: {code: code, password: password},
          success: function (data) {
             if (data == 'T') {
-               debugger;
-               location.href = "/";
+
+               // location.href = "/";
+               // TODO 채팅창 바로 열기
+               fn_messenger();
+
             } else if (data == "withdraw") {
                $("#capslock").hide();
                $("#login-msg").hide();
@@ -282,6 +285,10 @@
          }
 
       })
+   }
+
+   function fn_messenger() {
+      var popup = window.open('/messenger/contactList','','width=450px, height=660px, resizable=no, scrollbars=no, fullscreen=yes');
    }
    function fn_toFindId(){
       getSeq="";
