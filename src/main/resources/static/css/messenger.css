@@ -581,7 +581,7 @@ a:hover {
   background-color: var(--hover-color-light);
 }
 
-/* ÆÄÀÏ ¸ğ¾Æº¸±â ===========*/
+/* íŒŒì¼ ëª¨ì•„ë³´ê¸° ===========*/
 .showFile_date {
   margin-left: 10px;
   background-color: var(--chat-background-color);
@@ -648,7 +648,7 @@ a[href$=".zip"] .fileIcon {
   background-image: url("/icon/file_format/zip-compressed-files-extension.png");
   background-size: cover;
 }
-/* ÆÄÀÏ ¸ğ¾Æº¸±â ===========*/
+/* íŒŒì¼ ëª¨ì•„ë³´ê¸° ===========*/
 
 a{
 	color: var(--text-color-dark);
@@ -660,7 +660,7 @@ a{
   100% {margin-top: 10px;}
 }
 
-/* addMemberList - ¼±ÅÃµÈ »ç¶÷ÀÇ ¸ñ·ÏÀ» ¶ç¿öÁÜ*/
+/* addMemberList - ì„ íƒëœ ì‚¬ëŒì˜ ëª©ë¡ì„ ë„ì›Œì¤Œ*/
 .addedParty{
   border: 1.5px solid var(--text-color-dark);
   border-radius: 30px;
@@ -689,7 +689,7 @@ a{
   position: fixed;
   z-index: 50;
 }
-/* ÀÇÁø - ¸»ÁÙÀÓÇ¥½Ã */
+/* ì˜ì§„ - ë§ì¤„ì„í‘œì‹œ */
 .contents_ellipsis{
   text-overflow: ellipsis;
   overflow: hidden;
@@ -699,12 +699,12 @@ a{
   margin-bottom: 7px;
 }
 
-/* ÆÄÀÏ ¹öÆ° ¼û±â±â */
+/* íŒŒì¼ ë²„íŠ¼ ìˆ¨ê¸°ê¸° */
 #file{
   display: none;
 }
 
-/* ÀÌ¹ÌÁö ´Ù¿î·Îµå svg »ö */
+/* ì´ë¯¸ì§€ ë‹¤ìš´ë¡œë“œ svg ìƒ‰ */
 .svg_download{
 	filter: invert(49%) sepia(2%) saturate(33%) hue-rotate(318deg) brightness(104%) contrast(84%);
 }
