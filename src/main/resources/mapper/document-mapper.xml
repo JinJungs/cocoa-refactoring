@@ -128,7 +128,7 @@
 	</select>
     <update id="tempToUpdate">
         UPDATE DOCUMENT
-        SET TITLE=#{dto.title}, WRITE_DATE=SYSDATE, FINAL_DATE=''
+        SET TITLE=#{dto.title}, WRITE_DATE=NOW(), FINAL_DATE=''
         <choose>
             <when test='temp_code=="6"'>
                 <choose>
@@ -150,7 +150,7 @@
     </update>
 
     <update id="ReturnDoc">
-		UPDATE DOCUMENT SET STATUS = 'RETURN', FINAL_DATE = SYSDATE  WHERE SEQ=#{seq}
+		UPDATE DOCUMENT SET STATUS = 'RETURN', FINAL_DATE = NOW()  WHERE SEQ=#{seq}
 	</update>
     <select id="getAllConfirmDoc" resultType="kh.cocoa.dto.DocumentDTO">
         SELECT * FROM
@@ -236,27 +236,27 @@
         <choose>
             <when test="ori_temp_code==5">
                 insert into document(seq,title,contents,write_date,writer_code,dept_code,temp_code,status)
-                values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},'RAISE')
+                values(document_seq.nextval,#{title},#{contents},NOW(),#{writer_code},#{dept_code},#{temp_code},'RAISE')
             </when>
             <when test="ori_temp_code==6">
                 <choose>
                     <when test="leave_type=='반차'||leave_type=='조퇴'">
                         insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_type,status,dept_code,temp_code)
-                        values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_type},'RAISE',#{dept_code},#{temp_code})
+                        values(document_seq.nextval,#{title},#{contents},NOW(),#{writer_code},#{leave_start},#{leave_type},'RAISE',#{dept_code},#{temp_code})
                     </when>
                     <otherwise>
                         insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_end,leave_type,status,dept_code,temp_code)
-                        values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_end},#{leave_type},'RAISE',#{dept_code},#{temp_code})
+                        values(document_seq.nextval,#{title},#{contents},NOW(),#{writer_code},#{leave_start},#{leave_end},#{leave_type},'RAISE',#{dept_code},#{temp_code})
                     </otherwise>
                 </choose>
             </when>
             <when test="ori_temp_code==4">
                 insert into document(seq,title,contents,write_date,writer_code,dept_code,temp_code,status)
-                values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},'RAISE')
+                values(document_seq.nextval,#{title},#{contents},NOW(),#{writer_code},#{dept_code},#{temp_code},'RAISE')
             </when>
             <otherwise>
                 insert into document(seq,title,contents,write_date,writer_code,report_start,report_end,report_contents,status,dept_code,temp_code)
-                values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{report_start},#{report_end},#{report_contents},'RAISE',#{dept_code},#{temp_code})
+                values(document_seq.nextval,#{title},#{contents},NOW(),#{writer_code},#{report_start},#{report_end},#{report_contents},'RAISE',#{dept_code},#{temp_code})
             </otherwise>
         </choose>
     </insert>
@@ -269,27 +269,27 @@
         <choose>
             <when test="ori_temp_code==5">
                 insert into document(seq,title,contents,write_date,writer_code,dept_code,temp_code,status)
-                values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},'TEMP')
+                values(document_seq.nextval,#{title},#{contents},NOW(),#{writer_code},#{dept_code},#{temp_code},'TEMP')
             </when>
             <when test="ori_temp_code==6">
                 <choose>
                     <when test="leave_type=='반차'||leave_type=='조퇴'">
                         insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_type,status,dept_code,temp_code)
-                        values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_type},'TEMP',#{dept_code},#{temp_code})
+                        values(document_seq.nextval,#{title},#{contents},NOW(),#{writer_code},#{leave_start},#{leave_type},'TEMP',#{dept_code},#{temp_code})
                     </when>
                     <otherwise>
                         insert into document(seq,title,contents,write_date,writer_code,leave_start,leave_end,leave_type,status,dept_code,temp_code)
-                        values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{leave_start},#{leave_end},#{leave_type},'TEMP',#{dept_code},#{temp_code})
+                        values(document_seq.nextval,#{title},#{contents},NOW(),#{writer_code},#{leave_start},#{leave_end},#{leave_type},'TEMP',#{dept_code},#{temp_code})
                     </otherwise>
                 </choose>
             </when>
             <when test="ori_temp_code==4">
                 insert into document(seq,title,contents,write_date,writer_code,dept_code,temp_code,status)
-                values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{dept_code},#{temp_code},'TEMP')
+                values(document_seq.nextval,#{title},#{contents},NOW(),#{writer_code},#{dept_code},#{temp_code},'TEMP')
             </when>
             <otherwise>
                 insert into document(seq,title,contents,write_date,writer_code,report_start,report_end,report_contents,status,dept_code,temp_code)
-                values(document_seq.nextval,#{title},#{contents},sysdate,#{writer_code},#{report_start},#{report_end},#{report_contents},'TEMP',#{dept_code},#{temp_code})
+                values(document_seq.nextval,#{title},#{contents},NOW(),#{writer_code},#{report_start},#{report_end},#{report_contents},'TEMP',#{dept_code},#{temp_code})
             </otherwise>
         </choose>
     </insert>
@@ -860,15 +860,15 @@
     <update id="modDocument">
         <choose>
             <when test="ori_temp_code==4 ||ori_temp_code==5">
-                update document set title=#{title}, contents=#{contents}, write_date=sysdate where seq=#{seq}
+                update document set title=#{title}, contents=#{contents}, write_date=NOW() where seq=#{seq}
             </when>
             <otherwise>
                 <choose>
                     <when test="leave_end==null">
-                        update document set title=#{title}, contents=#{contents}, write_date=sysdate, leave_start=#{leave_start}, leave_end='', leave_type=#{leave_type} where seq=#{seq}
+                        update document set title=#{title}, contents=#{contents}, write_date=NOW(), leave_start=#{leave_start}, leave_end='', leave_type=#{leave_type} where seq=#{seq}
                     </when>
                     <otherwise>
-                        update document set title=#{title}, contents=#{contents}, write_date=sysdate, leave_start=#{leave_start}, leave_end=#{leave_end}, leave_type=#{leave_type} where seq=#{seq}
+                        update document set title=#{title}, contents=#{contents}, write_date=NOW(), leave_start=#{leave_start}, leave_end=#{leave_end}, leave_type=#{leave_type} where seq=#{seq}
                     </otherwise>
                 </choose>
             </otherwise>
@@ -878,15 +878,15 @@
     <update id="modAddDocument">
         <choose>
             <when test="ori_temp_code==4 ||ori_temp_code==5">
-                update document set title=#{title}, contents=#{contents}, write_date=sysdate, status='RAISE'where seq=#{seq}
+                update document set title=#{title}, contents=#{contents}, write_date=NOW(), status='RAISE'where seq=#{seq}
             </when>
             <otherwise>
                 <choose>
                     <when test="leave_end==null">
-                        update document set title=#{title}, contents=#{contents}, write_date=sysdate, leave_start=#{leave_start}, leave_end='', leave_type=#{leave_type}, status='RAISE' where seq=#{seq}
+                        update document set title=#{title}, contents=#{contents}, write_date=NOW(), leave_start=#{leave_start}, leave_end='', leave_type=#{leave_type}, status='RAISE' where seq=#{seq}
                     </when>
                     <otherwise>
-                        update document set title=#{title}, contents=#{contents}, write_date=sysdate, leave_start=#{leave_start}, leave_end=#{leave_end}, leave_type=#{leave_type}, status='RAISE' where seq=#{seq}
+                        update document set title=#{title}, contents=#{contents}, write_date=NOW(), leave_start=#{leave_start}, leave_end=#{leave_end}, leave_type=#{leave_type}, status='RAISE' where seq=#{seq}
                     </otherwise>
                 </choose>
             </otherwise>
@@ -894,16 +894,16 @@
     </update>
 
     <update id="returnD">
-		update document set status='REJECT',final_date=sysdate where seq=#{seq}
+		update document set status='REJECT',final_date=NOW() where seq=#{seq}
 	</update>
 
     <update id="addRIsConfirm">
         <choose>
             <when test="comments==null">
-                update doc_confirm set isconfirm='R', confirm_date=sysdate where approver_code=#{approver_code} and doc_seq=#{seq}
+                update doc_confirm set isconfirm='R', confirm_date=NOW() where approver_code=#{approver_code} and doc_seq=#{seq}
             </when>
             <otherwise>
-                update doc_confirm set comments=#{comments}, isconfirm='R',confirm_date=sysdate where approver_code=#{approver_code} and doc_seq=#{seq}
+                update doc_confirm set comments=#{comments}, isconfirm='R',confirm_date=NOW() where approver_code=#{approver_code} and doc_seq=#{seq}
             </otherwise>
         </choose>
 
@@ -914,15 +914,15 @@
 	</select>
 
     <update id="confirm">
-		update document set final_date=sysdate,status='CONFIRM' where seq=#{seq}
+		update document set final_date=NOW(),status='CONFIRM' where seq=#{seq}
 	</update>
     <update id="addIsConfirm">
         <choose>
             <when test="comments==null">
-                update doc_confirm set isconfirm='Y', confirm_date=sysdate where approver_code=#{approver_code} and doc_seq=#{seq}
+                update doc_confirm set isconfirm='Y', confirm_date=NOW() where approver_code=#{approver_code} and doc_seq=#{seq}
             </when>
             <otherwise>
-                update doc_confirm set comments=#{comments}, isconfirm='Y', confirm_date=sysdate where approver_code=#{approver_code} and doc_seq=#{seq}
+                update doc_confirm set comments=#{comments}, isconfirm='Y', confirm_date=NOW() where approver_code=#{approver_code} and doc_seq=#{seq}
             </otherwise>
         </choose>
 

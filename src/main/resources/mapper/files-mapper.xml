@@ -6,17 +6,17 @@
 <!-- 파일 업로드 / 게시판용 -->
 	<insert id="uploadFiles">
 		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, 
-		#{fdto.savedname}, SYSDATE,#{noBoard_seq},0,0,0,0)
+		#{fdto.savedname}, NOW(),#{noBoard_seq},0,0,0,0)
 	</insert>
 <!-- 파일 업로드 / 임시저장에서 다시 임시저장할 때 -->
 	<insert id="uploadFilesTempSave">
 		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, 
-		#{fdto.savedname}, SYSDATE,0,#{seq},0,0,0)
+		#{fdto.savedname}, NOW(),0,#{seq},0,0,0)
 	</insert>
 <!-- 파일 업로드 / 업무일지용 -->
 	<insert id="uploadFilesBusinessLog">
 		INSERT INTO FILES VALUES(FILES_SEQ.NEXTVAL, #{fdto.oriname}, 
-		#{fdto.savedname}, SYSDATE,0,#{logDoc_seq},0,0,0)
+		#{fdto.savedname}, NOW(),0,#{logDoc_seq},0,0,0)
 	</insert>
 <!-- 게시글에 업로드된 파일 갯수 확인 -->
 	<select id="isExistUploadFile" resultType="Integer">
@@ -61,14 +61,14 @@
 	
 	<!--용국 업로드-->
 	<insert id="documentInsertFile">
-		INSERT INTO FILES(SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE,DOCUMENT_SEQ) VALUES(FILES_SEQ.NEXTVAL,#{oriName},#{savedName},sysdate,#{doc_seq})
+		INSERT INTO FILES(SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE,DOCUMENT_SEQ) VALUES(FILES_SEQ.NEXTVAL,#{oriName},#{savedName},NOW(),#{doc_seq})
 	</insert>
 	<insert id="insertProfile">
-		INSERT INTO FILES(SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE,EMP_CODE) VALUES(FILES_SEQ.NEXTVAL,#{oriname},#{savedname},sysdate,#{emp_code})
+		INSERT INTO FILES(SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE,EMP_CODE) VALUES(FILES_SEQ.NEXTVAL,#{oriname},#{savedname},NOW(),#{emp_code})
 	</insert>
 
 	<update id="modProfile">
-		update files set oriname=#{oriname}, savedname=#{savedname},uploadeddate=sysdate where emp_code=#{emp_code}
+		update files set oriname=#{oriname}, savedname=#{savedname},uploadeddate=NOW() where emp_code=#{emp_code}
 	</update>
 
 	<select id="findBeforeProfile" resultType="kh.cocoa.dto.FilesDTO">
@@ -80,7 +80,7 @@
 		<selectKey keyProperty="msg_seq" resultType="int" order="BEFORE">
 		    SELECT MESSAGE_SEQ.NEXTVAL FROM USER_SEQUENCES WHERE SEQUENCE_NAME='MESSAGE_SEQ'
 		</selectKey>
-		INSERT INTO FILES (SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE,MSG_SEQ) VALUES(FILES_SEQ.NEXTVAL, #{oriname}, #{savedname}, SYSDATE, #{msg_seq})
+		INSERT INTO FILES (SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE,MSG_SEQ) VALUES(FILES_SEQ.NEXTVAL, #{oriname}, #{savedname}, NOW(), #{msg_seq})
 	</insert>
 	<select id="getSavedName" resultType="String">
 		SELECT SAVEDNAME FROM FILES WHERE MSG_SEQ=#{msg_seq} 
@@ -117,9 +117,10 @@
 	<update id="updateFile">
 		update files set document_seq=#{seq} where document_seq=#{b_seq}
 	</update>
+	<update id="updateMsgSeq"></update>
 
 	<insert id="insertFile">
-		INSERT INTO FILES(SEQ, ORINAME, SAVEDNAME, UPLOADEDDATE, EMAIL_SEQ) VALUES(FILES_SEQ.NEXTVAL, #{oriname}, #{savedname}, SYSDATE, #{email_seq})
+		INSERT INTO FILES(SEQ, ORINAME, SAVEDNAME, UPLOADEDDATE, EMAIL_SEQ) VALUES(FILES_SEQ.NEXTVAL, #{oriname}, #{savedname}, NOW(), #{email_seq})
 	</insert>
 	<select id="getEmailFiles" resultType="kh.cocoa.dto.FilesDTO">
 		SELECT * FROM FILES WHERE EMAIL_SEQ=#{seq}

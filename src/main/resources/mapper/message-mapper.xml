@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kh.cocoa.dao.MessageDAO">
-    <!--시간에 초까지 필요 SYSDATE 가능?-->
+    <!--시간에 초까지 필요 NOW() 가능?-->
     <insert id="insertMessage">
         INSERT INTO MESSAGE
-        VALUES (MESSAGE_SEQ.NEXTVAL, #{contents}, SYSDATE, #{emp_code}, #{m_seq}, #{type})
+        VALUES (NEXTVAL('MESSAGE_SEQ'), #{contents}, NOW(), #{emp_code}, #{m_seq}, #{type})
     </insert>
     <insert id="insertMessageGotSeq">
         INSERT INTO MESSAGE
-        VALUES (#{seq}, #{contents}, SYSDATE, #{emp_code}, #{m_seq}, #{type})
+        VALUES (#{seq}, #{contents}, NOW(), #{emp_code}, #{m_seq}, #{type})
     </insert>
 
     <!--같은 채팅방에서의 나와 상대방의 메세지를 같이 SELECT해야한다.-->
@@ -30,12 +30,15 @@
                A.TYPE,
                A.SAVEDNAME,
                E.NAME EMPNAME
-        FROM (SELECT MSG_VIEW.*, ROW_NUMBER() OVER(ORDER BY MSG_VIEW.SEQ DESC)RN
+        FROM (SELECT MSG_VIEW.*
+                   , @row_num := @row_num + 1 as rn
               FROM (SELECT M.*, F.SAVEDNAME
-                    FROM MESSAGE M,
-                         FILES F
-                    WHERE M.SEQ = F.MSG_SEQ(+)
-                      AND M_SEQ = #{m_seq}) MSG_VIEW) A,
+                    FROM MESSAGE M
+                    LEFT OUTER JOIN FILES F
+                    ON M.SEQ = F.MSG_SEQ
+                      AND M_SEQ = #{m_seq}) MSG_VIEW
+                      , (select @row_num := 0) AS B
+                        ORDER BY MSG_VIEW.SEQ DESC) A,
              EMPLOYEE_VIEW E
         WHERE RN BETWEEN #{startRowNum} AND #{endRowNum}
           AND A.EMP_CODE = E.CODE
@@ -43,9 +46,9 @@
 
     <!-- 메세지 파일 업로드 - message & files seq값 동일하게 맞추기 -->
     <select id="selectMessageSeq" resultType="Integer">
-        SELECT MESSAGE_SEQ.NEXTVAL
-        FROM USER_SEQUENCES
-        WHERE SEQUENCE_NAME = 'MESSAGE_SEQ'
+        SELECT NEXTVAL('MESSAGE_SEQ')
+--         FROM USER_SEQUENCES
+--         WHERE SEQUENCE_NAME = 'MESSAGE_SEQ'
     </select>
 
     <!--내용으로 메세지 검색-->
