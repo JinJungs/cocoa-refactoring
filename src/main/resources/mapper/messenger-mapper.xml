@@ -77,7 +77,7 @@
     <!-- 채팅방 생성 후 시퀀스 가져오기 -->
     <insert id="insertMessengerRoomGetSeq">
         <selectKey keyProperty="seq" resultType="int" order="BEFORE">
-            SELECT MESSENGER_SEQ.NEXTVAL
+            SELECT NEXTVAL('MESSENGER_SEQ')
             FROM DUAL
         </selectKey>
         INSERT INTO MESSENGER (

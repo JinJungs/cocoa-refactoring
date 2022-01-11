@@ -78,7 +78,7 @@
 	<!-- ****메세지 파일 업로드**** -->
 	<insert id="uploadFilesMsg">
 		<selectKey keyProperty="msg_seq" resultType="int" order="BEFORE">
-		    SELECT MESSAGE_SEQ.NEXTVAL FROM USER_SEQUENCES WHERE SEQUENCE_NAME='MESSAGE_SEQ'
+		    SELECT NEXTVAL('MESSAGE_SEQ') FROM USER_SEQUENCES WHERE SEQUENCE_NAME='MESSAGE_SEQ'
 		</selectKey>
 		INSERT INTO FILES (SEQ,ORINAME,SAVEDNAME,UPLOADEDDATE,MSG_SEQ) VALUES(FILES_SEQ.NEXTVAL, #{oriname}, #{savedname}, NOW(), #{msg_seq})
 	</insert>
