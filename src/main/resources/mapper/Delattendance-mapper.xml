@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kh.cocoa.dao.AttendanceDAO">
-    <insert id="startWork">
+    <!--<insert id="startWork">
         insert into attendance values (ATTENDANCE_SEQ.NEXTVAL, systimestamp, null, default, #{emp_code})
     </insert>
 
@@ -176,5 +176,5 @@
 
     <update id="updateMWEmpAtd">
         update attendance set status='ABS' where seq=#{seq}
-    </update>
+    </update>-->
 </mapper>

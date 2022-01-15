@@ -3,7 +3,7 @@
 <mapper namespace="kh.cocoa.dao.TemplateFormDAO">
 
 
-    <select id="getTempleateFormList" resultType="kh.cocoa.dto.TemplateFormDTO">
+    <!--<select id="getTempleateFormList" resultType="kh.cocoa.dto.TemplateFormDTO">
         select * from templateform order by code
     </select>
 
@@ -37,7 +37,7 @@
 
     <select id="getFormInfoByCode" resultType="kh.cocoa.dto.TemplateFormDTO">
         SELECT * FROM TEMPLATEFORM WHERE CODE=#{code}
-    </select>
+    </select>-->
 </mapper>
 
 

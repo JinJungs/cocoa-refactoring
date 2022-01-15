@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kh.cocoa.dao.LeaveDAO">
-	<select id="getLeavelist" resultType="kh.cocoa.dto.LeaveDTO">
+	<!--<select id="getLeavelist" resultType="kh.cocoa.dto.LeaveDTO">
 		SELECT * 
 			FROM (SELECT LEAVE.*, ROW_NUMBER() OVER(ORDER BY START_DATE DESC) "rownumber",(END_DATE - START_DATE) "duration" 
     				FROM LEAVE
@@ -23,5 +23,5 @@
 		SELECT SUM(TIME) FROM LEAVE 
 	    WHERE START_DATE BETWEEN #{startDate} AND #{endDate}
 	        AND EMP_CODE = #{empCode}
-	</select>
+	</select>-->
 </mapper>

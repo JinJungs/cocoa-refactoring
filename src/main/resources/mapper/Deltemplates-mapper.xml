@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kh.cocoa.dao.TemplatesDAO">
-    <select id="getTemplateList" resultType="kh.cocoa.dto.TemplatesDTO">
+    <!--<select id="getTemplateList" resultType="kh.cocoa.dto.TemplatesDTO">
         SELECT * FROM TEMPLATES WHERE STATUS='Y' ORDER BY CODE
     </select>
     <select id="getUsingTemplates" resultType="kh.cocoa.dto.TemplatesDTO">
@@ -69,5 +69,5 @@
 
     <select id="getTemplateCount" resultType="Integer">
         SELECT COUNT(*) FROM TEMPLATES WHERE FORM_CODE =#{form_code} AND STATUS='Y'
-    </select>
+    </select>-->
 </mapper>

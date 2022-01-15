@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kh.cocoa.dao.NotificationBoardDAO">
-<!-- 게시글 리스트 가져오기 -->
+<!--&lt;!&ndash; 게시글 리스트 가져오기 &ndash;&gt;
 	<select id="getNotificationBoardList" resultType="kh.cocoa.dto.BoardDTO">
 		SELECT * FROM (SELECT ROWNUM NUM, N.* FROM 
 		(SELECT * FROM BOARD, EMPLOYEE 
@@ -11,7 +11,7 @@
 		AND MENU_SEQ = #{menu_seq} ORDER BY WRITE_DATE DESC) N )
         WHERE NUM BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
-<!-- 게시글 리스트 불러오기 @ 메인보드 -->
+&lt;!&ndash; 게시글 리스트 불러오기 @ 메인보드 &ndash;&gt;
 	<select id="getNoBoardList" resultType="kh.cocoa.dto.BoardDTO">
 		SELECT * FROM(SELECT ROWNUM NUM, N.* FROM 
 		(SELECT B.*,D.NAME FROM BOARD B, EMPLOYEE E, DEPARTMENTS D
@@ -20,7 +20,7 @@
 		AND MENU_SEQ = #{menu_seq} ORDER BY WRITE_DATE DESC) N )
         WHERE NUM BETWEEN '1' AND '5'
 	</select>
-<!-- 앨범 게시판 리스트 가져오기 -->
+&lt;!&ndash; 앨범 게시판 리스트 가져오기 &ndash;&gt;
 	<select id="getAlbumBoardListCpage" resultType="kh.cocoa.dto.BoardDTO">
 		SELECT E.NAME, F.SAVEDNAME ,B.*
 	    FROM BOARD B, EMPLOYEE E, FILES F, 
@@ -33,7 +33,7 @@
         AND TEMP.SEQ = F.SEQ
     	ORDER BY B.SEQ DESC
 	</select>
-<!-- 검색한 앨범 게시글 가져오기 -->
+&lt;!&ndash; 검색한 앨범 게시글 가져오기 &ndash;&gt;
 	<select id="getAlbumBoardListSearch" resultType="kh.cocoa.dto.BoardDTO">
 		SELECT E.NAME, F.SAVEDNAME ,B.*
 	    FROM BOARD B, EMPLOYEE E, FILES F, 
@@ -57,7 +57,7 @@
            </choose>
     	ORDER BY B.SEQ DESC
 	</select>
-<!-- 검색한 게시글 가져오기 -->
+&lt;!&ndash; 검색한 게시글 가져오기 &ndash;&gt;
 	<select id="getSearchList" resultType="kh.cocoa.dto.BoardDTO">
 		SELECT * FROM 
 		(SELECT ROWNUM NUM, N.* FROM 
@@ -77,7 +77,7 @@
 		ORDER BY B.WRITE_DATE DESC
 		)N) WHERE NUM BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
-	  <!-- 검색한 게시글 수 가져오기 -->
+	  &lt;!&ndash; 검색한 게시글 수 가져오기 &ndash;&gt;
 	<select id="getSearchCount" resultType="Integer">
 		SELECT COUNT(*) FROM 
 		(SELECT B.*, E.NAME FROM BOARD B, EMPLOYEE E
@@ -95,60 +95,60 @@
            </choose>  
            ORDER BY B.WRITE_DATE DESC)
   	</select>
-<!-- 토탈 카운트 가져오기 -->
+&lt;!&ndash; 토탈 카운트 가져오기 &ndash;&gt;
 	<select id="recordTotalCount" resultType="Integer">
 		SELECT COUNT(*) FROM BOARD WHERE MENU_SEQ = #{menu_seq}
 	</select>
-<!-- 게시글 파일 업로드 - board & files seq값 동일하게 맞추기 -->
+&lt;!&ndash; 게시글 파일 업로드 - board & files seq값 동일하게 맞추기 &ndash;&gt;
 	<select id="noBoardSelectSeq" resultType="Integer">
 		SELECT BOARD_SEQ.NEXTVAL FROM USER_SEQUENCES WHERE SEQUENCE_NAME='BOARD_SEQ'
 	</select>
-<!-- 글작성 -->
+&lt;!&ndash; 글작성 &ndash;&gt;
 	<insert id="notificationBoardCreateDone" >
-		INSERT INTO BOARD VALUES(#{noBoard_seq}, #{bdto.title},#{bdto.contents},NOW(),0,#{bdto.writer_code},#{menu_seq})<!-- #{writer_code},#{menu_seq}) -->
+		INSERT INTO BOARD VALUES(#{noBoard_seq}, #{bdto.title},#{bdto.contents},NOW(),0,#{bdto.writer_code},#{menu_seq})&lt;!&ndash; #{writer_code},#{menu_seq}) &ndash;&gt;
 	</insert>
-<!-- 게시글 가져오기 -->
+&lt;!&ndash; 게시글 가져오기 &ndash;&gt;
 	<select id="notificationBoardContentsSelect" resultType="kh.cocoa.dto.BoardDTO">
 		SELECT * FROM BOARD, EMPLOYEE WHERE EMPLOYEE.CODE = BOARD.WRITER_CODE and SEQ=#{seq} AND MENU_SEQ = #{menu_seq}
 	</select>
-	<!-- 게시글 작성자와 로그인한 사람이 동일한지 확인하고 수정 삭제 권환주기 -->
+	&lt;!&ndash; 게시글 작성자와 로그인한 사람이 동일한지 확인하고 수정 삭제 권환주기 &ndash;&gt;
 	<select id="checkWriter" resultType="Integer">
 		SELECT COUNT(*) FROM BOARD WHERE SEQ=#{seq} AND WRITER_CODE=#{writer_code}
 	</select>
-	<!-- seq로 게시글 수 확인 -->
+	&lt;!&ndash; seq로 게시글 수 확인 &ndash;&gt;
 	<select id="isExistReadPage" resultType="Integer">
 		SELECT COUNT(*) FROM BOARD WHERE MENU_SEQ = #{menu_seq}
   	</select>
 
-<!-- 게시글 조회수 올리기 -->
+&lt;!&ndash; 게시글 조회수 올리기 &ndash;&gt;
 	<update id="notificationBoardViewCount" >
 		UPDATE BOARD SET VIEW_COUNT=VIEW_COUNT+1 WHERE SEQ=#{seq} AND MENU_SEQ = #{menu_seq}
 	</update>
-<!-- 게시글 수정  -->
+&lt;!&ndash; 게시글 수정  &ndash;&gt;
 	<update id="notificationBoardContentsModify">
 		UPDATE BOARD SET TITLE=#{title}, CONTENTS=#{contents} WHERE SEQ=#{seq} AND MENU_SEQ = #{menu_seq}
 	</update>
-<!-- 게시글 삭제 -->
+&lt;!&ndash; 게시글 삭제 &ndash;&gt;
 	<delete id="notificationBoardContentsDel">
 		DELETE FROM BOARD WHERE SEQ=#{seq}
 	</delete>
 
-<!-- **************내가쓴글*************************** -->
-<!-- 내가쓴글 가져오기 -->
+&lt;!&ndash; **************내가쓴글*************************** &ndash;&gt;
+&lt;!&ndash; 내가쓴글 가져오기 &ndash;&gt;
 	<select id="getMyBoardList" resultType="kh.cocoa.dto.BoardDTO">
 		SELECT * FROM BOARD WHERE WRITER_CODE=#{writer_code} ORDER BY WRITE_DATE DESC
 	</select>
 
-<!-- **************넥사크로 보드 메뉴리스트*************************** -->
-<!-- 넥사크로 - 모든 보드 메뉴 불러오기 -->
+&lt;!&ndash; **************넥사크로 보드 메뉴리스트*************************** &ndash;&gt;
+&lt;!&ndash; 넥사크로 - 모든 보드 메뉴 불러오기 &ndash;&gt;
 	<select id="getBoardMenuList" resultType="kh.cocoa.dto.BoardMenuDTO">
 		SELECT * FROM BOARD_MENU ORDER BY SEQ
 	</select>
-<!-- 넥사크로 - 보드메뉴 추가 -->
+&lt;!&ndash; 넥사크로 - 보드메뉴 추가 &ndash;&gt;
 	<insert id="addBoard">
 		INSERT INTO BOARD_MENU VALUES (#{board_menu_seq},#{name},#{type})
 	</insert>
-<!-- 넥사크로 - 보드 이름 수정 -->
+&lt;!&ndash; 넥사크로 - 보드 이름 수정 &ndash;&gt;
 	<update id="uptBoard">
 		UPDATE BOARD_MENU SET NAME=#{name} WHERE SEQ=#{seq}
 	</update>
@@ -160,5 +160,5 @@
 	</delete>
 	<delete id="delBoardText">
 	DELETE FROM BOARD WHERE MENU_SEQ=#{seq}
-	</delete>
+	</delete>-->
 </mapper>	

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kh.cocoa.dao.EmailDAO">
-	<insert id="sendEmail">
+	<!--<insert id="sendEmail">
 		INSERT INTO EMAIL VALUES(#{seq}, #{title}, #{contents}, NOW(), #{parent}, #{sender}, #{receiver},'SEND', 'SEND')
 	</insert>
 	<select id="getSeq" resultType="Integer">
@@ -67,6 +67,6 @@
 	</update>
 	<update id="deleteSendNEmail">
 		UPDATE EMAIL SET STATUS_SENDER='N' WHERE SEQ=#{seq}
-	</update>
+	</update>-->
 	
 </mapper>
