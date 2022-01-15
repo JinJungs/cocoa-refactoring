@@ -16,22 +16,22 @@ public class HomeController {
     @Autowired
     private EmployeeService eservice;
 
-    @Autowired
-    private ScheduleService sservice;
-
-    @Autowired
-    private DocumentService dservice;
-
-    @Autowired
-    private TemplatesService tservice;
-
-    @Autowired
-    private NotificationBoardService nservice;
-
-    @Autowired
-    private EmailService emailService;
-    @Autowired
-    private BusinessLogService bservice;
+//    @Autowired
+//    private ScheduleService sservice;
+//
+//    @Autowired
+//    private DocumentService dservice;
+//
+//    @Autowired
+//    private TemplatesService tservice;
+//
+//    @Autowired
+//    private NotificationBoardService nservice;
+//
+//    @Autowired
+//    private EmailService emailService;
+//    @Autowired
+//    private BusinessLogService bservice;
 
     @Autowired
     private HttpSession session;

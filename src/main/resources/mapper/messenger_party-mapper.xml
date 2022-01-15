@@ -4,6 +4,23 @@
 
 <!-- 채팅방 참가자 추가 -->
 	<insert id="setMessengerMember" parameterType="List">
+	   INSERT
+		INTO MESSENGER_PARTY
+	      (
+	          SEQ
+	         , M_SEQ
+	         ,EMP_CODE
+	      )
+	      VALUES
+		<foreach collection="list" item="i" separator=",">
+	      (
+				NEXTVAL('MESSENGER_SEQ')
+	         , #{i.m_seq}
+	         , #{i.emp_code}
+	      )
+	   </foreach>
+	</insert>
+<!--	<insert id="setMessengerMember" parameterType="List">
 	   INSERT ALL
 	   <foreach collection="list" item="i">
 	      INTO MESSENGER_PARTY
@@ -20,7 +37,8 @@
 	      )
 	   </foreach>
 	   SELECT * FROM DUAL
-	</insert>
+	</insert>-->
+
 	
 	<!-- 채팅방 나가기 (멀티) -->
 	<delete id="exitMutiRoom">

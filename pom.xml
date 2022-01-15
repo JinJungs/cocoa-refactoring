@@ -103,11 +103,11 @@
         </dependency>
 
         <!-- oracle jdbc -->
-       <dependency>
+<!--       <dependency>
             <groupId>com.oracle.jdbc</groupId>
             <artifactId>ojdbc8</artifactId>
             <version>12.2.0.1</version>
-        </dependency>
+        </dependency>-->
         <!--hikaricp-->
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -191,7 +191,7 @@
 
     </dependencies>
 
-    <build>
+<!--    <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -208,6 +208,6 @@
         </plugins>
 
 
-    </build>
+    </build>-->
 
 </project>

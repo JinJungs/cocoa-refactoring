@@ -2,7 +2,7 @@ package kh.cocoa.service;
 
 import kh.cocoa.dao.EmployeeDAO;
 import kh.cocoa.dto.EmployeeDTO;
-import kh.cocoa.dto.NexacroSearchDTO;
+//import kh.cocoa.dto.NexacroSearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -238,10 +238,10 @@ public class EmployeeService implements EmployeeDAO {
 	public List<EmployeeDTO> getAllEmployeeOrderByCode() {
 		return edao.getAllEmployeeOrderByCode();
 	}
-	@Override
-	public List<EmployeeDTO> searchEmployee(NexacroSearchDTO dto){
-		return edao.searchEmployee(dto);
-	};
+//	@Override
+//	public List<EmployeeDTO> searchEmployee(NexacroSearchDTO dto){
+//		return edao.searchEmployee(dto);
+//	};
 	@Override
 	public int addEmployee(List<EmployeeDTO> list) {
 		return edao.addEmployee(list);

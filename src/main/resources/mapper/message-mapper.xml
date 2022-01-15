@@ -36,7 +36,7 @@
                     FROM MESSAGE M
                     LEFT OUTER JOIN FILES F
                     ON M.SEQ = F.MSG_SEQ
-                      AND M_SEQ = #{m_seq}) MSG_VIEW
+                      WHERE M.M_SEQ = #{m_seq}) MSG_VIEW
                       , (select @row_num := 0) AS B
                         ORDER BY MSG_VIEW.SEQ DESC) A,
              EMPLOYEE_VIEW E

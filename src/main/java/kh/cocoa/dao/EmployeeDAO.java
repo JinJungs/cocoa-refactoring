@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import kh.cocoa.dto.EmployeeDTO;
-import kh.cocoa.dto.NexacroSearchDTO;
+//import kh.cocoa.dto.NexacroSearchDTO;
 
 
 @Mapper
@@ -108,7 +108,7 @@ public interface EmployeeDAO {
 	//전체 멤버 호출 코드로 정렬
 	public List<EmployeeDTO> getAllEmployeeOrderByCode();
 	
-	public List<EmployeeDTO> searchEmployee(NexacroSearchDTO dto);
+//	public List<EmployeeDTO> searchEmployee(NexacroSearchDTO dto);
 	
 	public int addEmployee(List<EmployeeDTO> list);
 	
